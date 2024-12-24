@@ -78,8 +78,6 @@ const createGalleryTemplate = ({preview, original, description}) => {
   </a>
 </li>
 `;
-    
-    
 }
     
 galleryListEL.innerHTML = images.map(image => createGalleryTemplate(image)).join('');
@@ -87,40 +85,19 @@ galleryListEL.innerHTML = images.map(image => createGalleryTemplate(image)).join
 galleryListEL.addEventListener('click', event => {
     event.preventDefault();
 
-    if (event.target === event.currentTarget) {
+    if (event.target.nodeName !== 'IMG') {
         return;
     }
 
-    // console.log(event.target.dataset.source);
-
-    const imgOriginal = event.target.dataset.source;
-
-    const imageInfo = images.find(image => image.original === imgOriginal);
-
-    console.log(imageInfo);
+    const imgEventTarget = event.target;
 
     const modalInfo = basicLightbox.create(
-`<li>
-  <a class="gallery-link" href="large-image.jpg">
-    <img
-      class="gallery-image"
-      src="${imageInfo.original}"
-      alt="${imageInfo.description}"
+` <img
+      src="${imgEventTarget.dataset.source}"
+      alt="${imgEventTarget.alt}"
     />
-  </a>
-</li>
 `);
     
     modalInfo.show();
     
 });
-
-// const instance = basicLightbox.create(`
-// 	<h1>Dynamic Content</h1>
-// 	<p>You can set the content of the lightbox with JS.</p>
-// `);
-
-// instance.show();
-
-// console.log(createGallery(images[0]));
-// console.log(createGallery(images[1]));
